@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Red MoniCA Cochabamba · Calidad del aire</title>
+<meta name="description" content="Consulta de calidad del aire en Cochabamba: mapa de estaciones, gráficos por contaminante, tablas y fuentes.">
+<link rel="icon" href="hoja.svg" type="image/svg+xml">
+<link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+<a class="salto" href="#contenido">Saltar al contenido</a>
+<div class="franja" role="note">Prototipo académico UPDS · <strong id="etiqueta-datos"></strong>: los valores no son mediciones oficiales de la Red MoniCA.</div>
+
+<header class="cabecera">
+  <a class="marca" href="#inicio" aria-label="Red MoniCA Cochabamba, ir al inicio">
+    <img src="hoja.svg" alt="" width="34" height="34">
+    <span><strong>Red MoniCA</strong><small>Cochabamba</small></span>
+  </a>
+  <button id="btn-menu" class="btn-menu" aria-expanded="false" aria-controls="menu">Menú</button>
+  <nav id="menu" class="menu" aria-label="Principal">
+    <a href="#inicio">Inicio</a>
+    <a href="#mapa-seccion">Mapa</a>
+    <a href="#estaciones">Estaciones</a>
+    <a href="#graficos">Gráficos</a>
+    <a href="#fuentes">Fuentes</a>
+    <a href="#glosario">Glosario</a>
+    <button id="btn-login" class="btn btn-claro" type="button">Acceso administrador</button>
+  </nav>
+</header>
+
+<main id="contenido">
+<section id="inicio" class="hero">
+  <div class="hero-texto">
+    <h1>¿Cómo está el aire en Cochabamba?</h1>
+    <p>Consulta las últimas lecturas por estación, compáralas en el mapa y revisa su evolución en el tiempo. Cada valor se muestra con su unidad, fecha y fuente.</p>
+    <label for="inicio-estacion">Estación</label>
+    <select id="inicio-estacion"></select>
+    <ul class="kpis">
+      <li><strong id="kpi-activas">–</strong><span>estaciones con lectura reciente</span></li>
+      <li><strong id="kpi-ult">–</strong><span>último registro disponible</span></li>
+      <li><strong id="kpi-reg">–</strong><span>registros en el sistema</span></li>
+    </ul>
+  </div>
+  <aside class="panel-ica" id="panel-ica" aria-live="polite">
+    <p class="panel-tit">Índice de Calidad del Aire (ICA)</p>
+    <p class="ica-num" id="ica-num">–</p>
+    <p class="ica-cat" id="ica-cat">–</p>
+    <p class="ica-meta" id="ica-meta"></p>
+    <dl class="ica-lista" id="ica-lista"></dl>
+    <p class="aviso" id="ica-aviso" hidden></p>
+  </aside>
+</section>
+
+<section id="mapa-seccion" class="seccion">
+  <h2>Mapa de estaciones</h2>
+  <p class="intro">Cada marcador es una estación. Selecciónalo para ver su ficha. El color y la etiqueta indican la categoría del ICA; los grises no tienen lectura reciente.</p>
+  <div class="mapa-wrap">
+    <div id="mapa" role="region" aria-label="Mapa de estaciones de monitoreo"></div>
+    <div class="leyenda" aria-label="Leyenda del ICA">
+      <p class="panel-tit">Calidad del aire</p>
+      <p><i class="pt buena"></i><strong>Buena</strong> (0 – 50)</p>
+      <p><i class="pt moderada"></i><strong>Moderada</strong> (51 – 100)</p>
+      <p><i class="pt mala"></i><strong>Mala</strong> (&gt; 100)</p>
+      <p><i class="pt sin"></i><strong>Sin lectura reciente</strong></p>
+    </div>
+  </div>
+  <p class="aviso aviso-error" id="mapa-aviso" hidden></p>
+</section>
+
+<section id="estaciones" class="seccion">
+  <h2>Estaciones</h2>
+  <p class="intro">Listado con ubicación, estado y última lectura. La tabla sigue disponible aunque el mapa no cargue.</p>
+  <div id="lista-estaciones" class="tarjetas"></div>
+  <div class="tabla-scroll">
+    <table id="tabla-estaciones">
+      <caption>Resumen de estaciones</caption>
+      <thead><tr><th scope="col">Estación</th><th scope="col">Zona</th><th scope="col">Coordenadas</th><th scope="col">Estado</th><th scope="col">Última lectura</th><th scope="col">ICA</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="clima" class="seccion seccion-clima">
+  <h2>Clima y condiciones meteorológicas</h2>
+  <p class="intro">Temperatura, humedad y viento por estación. Se muestran aparte de los contaminantes.</p>
+  <div class="clima-barra"><label for="clima-estacion">Estación</label><select id="clima-estacion"></select></div>
+  <div class="clima-grid" id="clima-tarjetas" aria-live="polite"></div>
+  <p class="nota" id="clima-nota"></p>
+</section>
+
+<section id="graficos" class="seccion">
+  <h2>Gráficos y registros</h2>
+  <p class="intro">Elige estación, contaminante y período. El gráfico, el resumen y la tabla usan exactamente los mismos registros.</p>
+  <form id="filtros" class="filtros" novalidate>
+    <div><label for="f-estacion">Estación</label><select id="f-estacion"></select></div>
+    <div><label for="f-contaminante">Contaminante</label><select id="f-contaminante"></select></div>
+    <div><label for="f-desde">Desde</label><input type="date" id="f-desde"></div>
+    <div><label for="f-hasta">Hasta</label><input type="date" id="f-hasta"></div>
+    <button class="btn" type="submit">Actualizar</button>
+    <button class="btn btn-claro" type="button" id="btn-csv">Descargar CSV</button>
+  </form>
+  <p class="aviso aviso-error" id="mensaje" role="alert" hidden></p>
+  <div class="grafico-grid">
+    <figure class="grafico-caja">
+      <figcaption id="grafico-titulo">Evolución</figcaption>
+      <svg id="grafico" role="img" aria-label="Gráfico de la serie temporal" preserveAspectRatio="xMidYMid meet"></svg>
+      <p class="nota" id="grafico-nota"></p>
+    </figure>
+    <div class="resumen" id="resumen" aria-live="polite"></div>
+  </div>
+  <div class="tabla-scroll">
+    <table id="tabla-registros">
+      <caption>Registros del período seleccionado</caption>
+      <thead><tr><th scope="col">Fecha</th><th scope="col">Estación</th><th scope="col">Contaminante</th><th scope="col">Valor</th><th scope="col">Unidad</th><th scope="col">Período</th><th scope="col">Fuente</th><th scope="col">Estado</th><th scope="col">Tipo</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="fuentes" class="seccion">
+  <h2>Fuentes y procedencia</h2>
+  <div class="dos-col">
+    <article>
+      <h3>Origen de los datos</h3>
+      <p>Cada registro incluye estación, contaminante, valor, unidad, fecha, período de promedio, fuente, estado de validación y tipo de dato. Los registros inválidos o sin valor no entran en gráficos ni cálculos.</p>
+      <p>Las lecturas de este sistema son de tipo <strong class="etq-datos"></strong>. El origen puede reemplazarse por un servicio autorizado sin cambiar las pantallas.</p>
+      <h3>Alcance</h3>
+      <p>Se muestran únicamente puntos con coordenadas registradas. No se asignan lecturas a distritos sin cobertura y no se dibujan límites administrativos. Este sitio no es una herramienta oficial de fiscalización ambiental.</p>
+    </article>
+    <article>
+      <h3>Cómo se calcula el ICA</h3>
+      <p>Se toma el mayor subíndice entre PM2.5, PM10, NO₂ y O₃ del último día con lectura, con interpolación lineal por tramos. Es una clasificación de referencia, no un índice oficial.</p>
+      <table>
+        <caption>Categorías</caption>
+        <thead><tr><th scope="col">ICA</th><th scope="col">Categoría</th></tr></thead>
+        <tbody><tr><td>0 – 50</td><td>Buena</td></tr><tr><td>51 – 100</td><td>Moderada</td></tr><tr><td>Más de 100</td><td>Mala</td></tr></tbody>
+      </table>
+      <h3>Referencias</h3>
+      <ul>
+        <li>Organización Mundial de la Salud (2021). <em>WHO global air quality guidelines</em>. Se usa como línea de referencia en los gráficos, no como alerta.</li>
+        <li>Gobierno Autónomo Municipal de Cochabamba (2022). <em>Contaminación atmosférica: Gestión 2021, Red MoniCA</em>.</li>
+        <li>Mapas: OpenStreetMap o Google Maps JavaScript API, según configuración.</li>
+      </ul>
+    </article>
+  </div>
+</section>
+
+<section id="glosario" class="seccion">
+  <h2>Glosario</h2>
+  <dl class="glosario">
+    <div><dt>PM2.5</dt><dd>Partículas con diámetro de hasta 2,5 µm.</dd></div>
+    <div><dt>PM10</dt><dd>Partículas con diámetro de hasta 10 µm.</dd></div>
+    <div><dt>NO₂</dt><dd>Dióxido de nitrógeno, gas asociado al tráfico y la combustión.</dd></div>
+    <div><dt>O₃</dt><dd>Ozono a nivel del suelo, gas que se forma por reacciones en la atmósfera.</dd></div>
+    <div><dt>µg/m³</dt><dd>Microgramos de contaminante por metro cúbico de aire.</dd></div>
+    <div><dt>ICA</dt><dd>Índice que resume las lecturas en una categoría según umbrales definidos.</dd></div>
+    <div><dt>Estación</dt><dd>Punto de observación con ubicación y estado propios.</dd></div>
+    <div><dt>Trazabilidad</dt><dd>Posibilidad de conocer el origen de cada dato mostrado.</dd></div>
+  </dl>
+</section>
+</main>
+
+<footer class="pie">
+  <p>UPDS | Cochabamba — 2026 · Caso de referencia: Red MoniCA.</p>
+</footer>
+
+<dialog id="dlg-login" aria-labelledby="login-tit">
+  <form id="form-login" method="dialog" novalidate>
+    <h2 id="login-tit">Acceso administrador</h2>
+    <label for="usuario">Usuario</label><input id="usuario" autocomplete="username">
+    <label for="clave">Contraseña</label><input id="clave" type="password" autocomplete="current-password">
+    <p class="aviso" id="login-msg" role="status" hidden></p>
+    <div class="acciones"><button class="btn" type="submit">Ingresar</button><button class="btn btn-claro" type="button" id="btn-cerrar-login">Cerrar</button></div>
+  </form>
+</dialog>
+
+<script src="data.js?v=2"></script>
+<script src="charts.js?v=2"></script>
+<script src="map.js?v=2"></script>
+<script src="app.js?v=2"></script>
+<script src="meteo.js?v=2"></script>
+</body>
+</html>

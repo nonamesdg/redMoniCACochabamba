@@ -1,0 +1,116 @@
+/* ===== Variables de diseño ===== */
+:root{--ink:#10292b;--muted:#51686a;--bg:#f1f5f3;--card:#fff;--line:#d3dfda;--brand:#14604a;--brand-2:#0c3f31;
+--buena:#2f9e5b;--moderada:#e3a700;--mala:#d64545;--sin:#7a8788;--link:#1d5fbf;--r:10px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;font:16px/1.55 "Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+h1,h2,h3{line-height:1.2;margin:0 0 .5rem}
+h1{font-size:clamp(1.9rem,4vw,2.9rem);letter-spacing:-.02em}
+h2{font-size:1.6rem}h3{font-size:1.1rem;margin-top:1.2rem}
+a{color:var(--link)}
+:focus-visible{outline:3px solid #1d5fbf;outline-offset:2px}
+.salto{position:absolute;left:-999px;background:#fff;padding:.5rem 1rem}.salto:focus{left:8px;top:8px;z-index:50}
+
+/* ===== Cabecera y navegación ===== */
+.franja{background:var(--brand-2);color:#dff3e8;font-size:.85rem;text-align:center;padding:.35rem 1rem}
+.cabecera{position:sticky;top:0;z-index:20;display:flex;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:1.5rem;padding:.6rem clamp(1rem,4vw,3rem);background:#fff;border-bottom:1px solid var(--line)}
+.cabecera .marca{display:flex;flex:0 0 auto;align-items:center;gap:.6rem;text-decoration:none;color:var(--ink)}
+.marca span{display:flex;flex-direction:column;line-height:1.1}.marca small{color:var(--muted)}
+.cabecera .menu{position:static;display:flex;flex:1 1 auto;justify-content:flex-end;align-items:center;gap:1.4rem;margin-left:auto}
+.cabecera .menu a{white-space:nowrap;text-decoration:none;color:var(--ink);padding:.3rem 0;border-bottom:2px solid transparent}
+.cabecera .menu a:hover{border-color:var(--buena)}
+.cabecera .menu .btn{white-space:nowrap;padding:.5rem 1rem}
+.cabecera .btn-menu{display:none}
+
+/* ===== Botones y formularios ===== */
+.btn{font:inherit;font-weight:600;border:0;border-radius:8px;padding:.6rem 1.1rem;background:var(--brand);color:#fff;cursor:pointer}
+.btn:hover{background:var(--brand-2)}
+.btn-claro{background:#fff;color:var(--brand);border:1px solid var(--brand)}.btn-claro:hover{background:#e8f3ee}
+label{display:block;font-weight:600;font-size:.9rem;margin:.6rem 0 .25rem}
+select,input{font:inherit;width:100%;padding:.55rem .7rem;border:1px solid #9db3ad;border-radius:8px;background:#fff;color:var(--ink)}
+
+/* ===== Inicio ===== */
+.hero{display:grid;grid-template-columns:1.2fr 1fr;gap:2rem;align-items:start;padding:3rem clamp(1rem,4vw,3rem);background:linear-gradient(180deg,#e3efe9,var(--bg))}
+.hero-texto p{max-width:60ch;color:var(--muted)}
+.hero select{max-width:360px}
+.kpis{list-style:none;display:flex;flex-wrap:wrap;gap:1.5rem;padding:0;margin:1.5rem 0 0}
+.kpis strong{display:block;font-size:1.5rem}.kpis span{font-size:.85rem;color:var(--muted)}
+.panel-ica{background:var(--card);border-radius:var(--r);padding:1.4rem;border:1px solid var(--line);border-top:8px solid var(--sin)}
+.panel-ica[data-cat=buena]{border-top-color:var(--buena)}.panel-ica[data-cat=moderada]{border-top-color:var(--moderada)}.panel-ica[data-cat=mala]{border-top-color:var(--mala)}
+.panel-tit{margin:0;font-weight:700;font-size:.95rem}
+.ica-num{font-size:4.2rem;font-weight:700;line-height:1;margin:.4rem 0 0}
+.ica-cat{font-size:1.4rem;font-weight:700;margin:.2rem 0}
+.ica-meta{color:var(--muted);font-size:.9rem;margin:0 0 .8rem}
+.ica-lista{display:grid;grid-template-columns:auto 1fr;gap:.25rem 1rem;margin:0}
+.ica-lista dt{font-weight:600}.ica-lista dd{margin:0}
+
+/* ===== Secciones, avisos, tarjetas ===== */
+.seccion{padding:2.5rem clamp(1rem,4vw,3rem);max-width:1200px;margin:0 auto}
+.intro{color:var(--muted);max-width:70ch}
+.aviso{background:#fff7dc;border:1px solid #e3c25a;border-radius:8px;padding:.6rem .9rem;margin:.8rem 0}
+.aviso-error{background:#fdecec;border-color:#e39a9a}
+.tarjetas{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin-bottom:1.5rem}
+.tarjeta{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1rem}
+.tarjeta h3{margin-top:0}.tarjeta p{margin:.2rem 0;font-size:.92rem}
+.etiqueta{display:inline-block;border-radius:99px;padding:.1rem .7rem;font-size:.85rem;font-weight:700;color:#fff;background:var(--sin)}
+.etiqueta.buena{background:var(--buena)}.etiqueta.moderada{background:var(--moderada);color:#2b2200}.etiqueta.mala{background:var(--mala)}
+
+/* ===== Mapa ===== */
+.mapa-wrap{position:relative;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+#mapa{height:440px;background:#dfe9e5}
+.leyenda{position:absolute;right:12px;top:12px;z-index:500;background:#fff;border-radius:var(--r);padding:.7rem .9rem;box-shadow:0 2px 8px #0003;font-size:.9rem}
+.leyenda p{margin:.2rem 0}
+.pt{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:.5rem;background:var(--sin)}
+.pt.buena{background:var(--buena)}.pt.moderada{background:var(--moderada)}.pt.mala{background:var(--mala)}
+.ficha h3{margin:0 0 .3rem;font-size:1rem}.ficha p{margin:.15rem 0;font-size:.88rem}
+
+/* ===== Filtros, gráfico y tablas ===== */
+.filtros{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.8rem;align-items:end;margin:1rem 0}
+.grafico-grid{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin:1rem 0}
+.grafico-caja{margin:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:1rem}
+.grafico-caja figcaption{font-weight:700}
+#grafico{width:100%;height:auto;display:block}
+.nota{font-size:.85rem;color:var(--muted);margin:.3rem 0 0}
+.resumen{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;align-content:start}
+.resumen div{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:.8rem}
+.resumen strong{display:block;font-size:1.5rem}.resumen span{font-size:.85rem;color:var(--muted)}
+.ejes line{stroke:#cfdad6}.ejes text,.etq-eje{fill:#51686a;font-size:12px}
+.serie-area{fill:#2f9e5b22}.serie-linea{fill:none;stroke:#14604a;stroke-width:2.5}.serie-punto{fill:#14604a}
+.ref-linea{stroke:#d64545;stroke-dasharray:6 4;stroke-width:1.5}
+.tabla-scroll{overflow-x:auto;margin-top:1rem}
+table{border-collapse:collapse;width:100%;background:var(--card);font-size:.92rem}
+caption{text-align:left;font-weight:700;padding:.5rem 0}
+th,td{border-bottom:1px solid var(--line);padding:.5rem .7rem;text-align:left;white-space:nowrap}
+th{background:#e8f0ec}
+
+/* ===== Fuentes, glosario, pie ===== */
+.dos-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.glosario{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.8rem}
+.glosario div{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:.8rem}
+.glosario dt{font-weight:700}.glosario dd{margin:.2rem 0 0;color:var(--muted)}
+.pie{background:var(--brand-2);color:#dff3e8;text-align:center;padding:1.2rem}.pie p{margin:0}
+dialog{border:0;border-radius:var(--r);padding:1.5rem;width:min(92vw,380px)}dialog::backdrop{background:#0008}
+.acciones{display:flex;gap:.6rem;margin-top:1rem}
+
+/* ===== Adaptación a móvil y tableta ===== */
+@media (max-width:860px){
+ .hero,.grafico-grid,.dos-col{grid-template-columns:1fr}
+ #mapa{height:340px}.leyenda{position:static;border-radius:0;box-shadow:none;border-top:1px solid var(--line)}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* ===== Apartado de clima (añadido) ===== */
+.seccion-clima{padding-top:1rem;padding-bottom:1.5rem}
+.clima-barra{max-width:320px}
+.clima-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.8rem;margin-top:.8rem}
+.clima-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:.8rem 1rem;border-left:5px solid var(--link)}
+.clima-card span{display:block;font-size:.85rem;color:var(--muted)}
+.clima-card strong{display:block;font-size:1.6rem;line-height:1.3}
+.clima-card small{color:var(--muted)}
+
+/* ===== Menú desplegable en pantallas medianas y pequeñas ===== */
+@media (max-width:1080px){
+ .cabecera .btn-menu{display:block;font:inherit;padding:.4rem .8rem;border:1px solid var(--brand);background:#fff;border-radius:8px;cursor:pointer}
+ .cabecera .menu{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:flex-start;justify-content:flex-start;margin-left:0;background:#fff;padding:1rem clamp(1rem,4vw,3rem);border-bottom:1px solid var(--line);box-shadow:0 8px 16px #0002}
+ .cabecera .menu.abierto{display:flex}
+}
